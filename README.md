@@ -329,4 +329,4 @@ There is still room to improve the design, add more functionality and build a pr
 
 NEXUS is an ongoing personal project, and the codebase can be used as a starting point for anyone interested in building their own ESP32 based dashboard.
 
-working demo video : 
+working demo video : https://youtu.be/BgzsuMz_hZo
