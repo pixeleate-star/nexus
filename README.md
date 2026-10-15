@@ -8,6 +8,9 @@ The ESP32 C3 handles the main logic, reads the sensors, manages user input and r
 
 As the project developed, i also added a web dashboard, bluetooth media controls, a motion controlled space shooter game and an animated screensaver.
 
+<img width="1200" height="1600" alt="image" src="https://github.com/user-attachments/assets/d51c27ee-c477-4828-a56d-e0552df9162a" />
+
+
 ## Features
 
 - Compact ESP32 C3 based dashboard
@@ -44,7 +47,9 @@ As the project developed, i also added a web dashboard, bluetooth media controls
 | MPU6050 Module | 1 | Accelerometer and gyroscope for motion sensing | [Buy Here](https://www.google.com/search?q=MPU6050+module) |
 | Rotary Encoder Module | 1 | Menu navigation and user input | [Buy Here](https://www.google.com/search?q=rotary+encoder+module) |
 | Jumper Wires | As required | Electrical connections | - |
-| Enclosure | As required | Protects the electronics and improves the final design | Self Designed (3D printed) |
+| USB Cable | 1 | Programming and powering the ESP32 | - |
+| Breadboard | 1 | Prototyping and testing connections | - |
+| Enclosure | Optional | Protects the electronics and improves the final design | Self Designed |
 
 The exact components can vary depending on the modules you have available. The display and encoder connections should be checked against your particular hardware before powering everything on.
 
@@ -53,6 +58,10 @@ The exact components can vary depending on the modules you have available. The d
 I have used the following pin connections for the main NEXUS hardware. You can use them as a reference while connecting your own components.
 
 ### Main Connections
+
+<img width="1218" height="986" alt="image" src="https://github.com/user-attachments/assets/9af6f5ab-0eef-4d55-a828-958961512af3" />
+
+i know its a mess so here a link for a clear detailed wiring of components : https://app.cirkitdesigner.com/project/a8816a45-51b7-4a8f-b14c-1ef5eea4e9e8
 
 **ST7735 TFT Display → ESP32 C3**
 
@@ -89,9 +98,7 @@ The MPU6050 communicates with the ESP32 using I2C. Its usual I2C address in this
 
 The encoder is used to move through the menus, select options and interact with the different dashboard features.
 
-The exact power connections depend on the modules being used. Check the voltage requirements of the TFT display and encoder before connecting them.
-
-All the components should share a common ground.
+The exact power connections depend on the modules being used. Check the voltage requirements of the TFT display and encoder before connecting them. All the components should share a common ground.
 
 ## How to Build This...
 
@@ -119,9 +126,7 @@ All the components should share a common ground.
 
 ## Main Menu
 
-The main menu is the starting point of the NEXUS dashboard.
-
-I wanted the interface to be simple enough to use without needing a keyboard or mouse. The rotary encoder provides the main input, so you can move through the available options and select the feature you want.
+The main menu is the starting point of the NEXUS dashboard. I wanted the interface to be simple enough to use without needing a keyboard or mouse. The rotary encoder provides the main input, so you can move through the available options and select the feature you want.
 
 The main menu includes:
 
@@ -129,18 +134,15 @@ The main menu includes:
 - System Info
 - Encoder Test
 - Wifi Connect
+- Web Dashboard
+- Mac Media
+- Space shooter
 
-Each option opens a separate screen with its own functionality.
-
-The menu structure also makes it easier to add new features without changing the entire interface.
+Each option opens a separate screen with its own functionality. The menu structure also makes it easier to add new features without changing the entire interface.
 
 ## Motion Sensor
 
-The motion sensor screen uses the MPU6050 to read movement data from the device.
-
-The MPU6050 contains an accelerometer and a gyroscope. The accelerometer measures acceleration along different axes, while the gyroscope measures angular velocity.
-
-These readings can be used to understand how the device is moving or rotating.
+The motion sensor screen uses the MPU6050 to read movement data from the device. The MPU6050 contains an accelerometer and a gyroscope. The accelerometer measures acceleration along different axes, while the gyroscope measures angular velocity. These readings can be used to understand how the device is moving or rotating.
 
 The motion sensor is also useful for the motion controlled space shooter game, where the movement of the device is used as an input.
 
@@ -155,29 +157,19 @@ The sensor can also be used as a starting point for future projects involving ge
 
 ## System Information
 
-The system information screen provides a place to display useful information about the device.
-
-Instead of connecting the ESP32 to a computer every time i want to check something, the idea is to make important system information available directly on the TFT display.
+The system information screen provides a place to display useful information about the device. Instead of connecting the ESP32 to a computer every time i want to check something, the idea is to make important system information available directly on the TFT display.
 
 This screen can also be expanded later to include additional information such as wifi status, uptime, memory usage and other available system statistics.
 
 ## Encoder Test
 
-The encoder test screen is used to check whether the rotary encoder is working correctly.
+The encoder test screen is used to check whether the rotary encoder is working correctly. The rotary encoder detects rotation using its CLK and DT pins, while the SW pin is used for button input.
 
-The rotary encoder detects rotation using its CLK and DT pins, while the SW pin is used for button input.
-
-This screen is useful during development because it helps identify problems with the encoder before using it to navigate through the entire dashboard.
-
-If the direction feels reversed, the encoder logic can be adjusted in the code.
+This screen is useful during development because it helps identify problems with the encoder before using it to navigate through the entire dashboard. If the direction feels reversed, the encoder logic can be adjusted in the code.
 
 ## Wifi Manager
 
-The wifi manager allows the device to scan for wireless networks and connect to saved networks.
-
-Instead of showing every available network without any filtering, the interface checks which saved networks are currently visible.
-
-The available information includes the network name and signal strength.
+The wifi manager allows the device to scan for wireless networks and connect to saved networks. Instead of showing every available network without any filtering, the interface checks which saved networks are currently visible. The available information includes the network name and signal strength.
 
 The wifi manager includes:
 
@@ -191,56 +183,36 @@ The wifi manager includes:
 
 The connection process also handles different states such as connecting, connected, failed and cancelled.
 
-During testing, i found that the network environment can make a difference. A personal hotspot worked, while the campus wifi did not connect successfully in my testing.
-
-This showed that the problem is not always in the ESP32 code. Network restrictions, authentication requirements and access point configuration can also affect connectivity.
+During testing, i found that the network environment can make a difference. A personal hotspot worked, while the campus wifi did not connect successfully in my testing. This showed that the problem is not always in the ESP32 code. Network restrictions, authentication requirements and access point configuration can also affect connectivity.
 
 ## Web Dashboard
 
-The web dashboard is another part of NEXUS that extends the project beyond the small TFT display.
+The web dashboard is another part of NEXUS that extends the project beyond the small TFT display. The idea is to make the device accessible through a browser, providing another way to interact with or view information from the system. The ESP32 networking functionality provides the foundation for connecting the device to a web based interface.
 
-The idea is to make the device accessible through a browser, providing another way to interact with or view information from the system.
-
-The ESP32 networking functionality provides the foundation for connecting the device to a web based interface.
-
-When testing this feature, make sure the ESP32 and the device opening the dashboard are connected to a network that allows them to communicate with each other.
-
-The exact dashboard address and available controls depend on the web server implementation in the source code.
+When testing this feature, make sure the ESP32 and the device opening the dashboard are connected to a network that allows them to communicate with each other. The exact dashboard address and available controls depend on the web server implementation in the source code.
 
 This feature also provides a foundation for adding more controls, system information and interactive elements in the future.
 
 ## Bluetooth Media Controls
 
-I also added bluetooth media controls to NEXUS so that it can interact with a computer without needing a physical keyboard.
+I also added bluetooth media controls to NEXUS so that it can interact with a computer without needing a physical keyboard. The bluetooth device uses the name `NEXUS` and supports media related controls through Bluetooth HID.
 
-The bluetooth device uses the name `NEXUS` and supports media related controls through Bluetooth HID.
-
-The main idea is to control media playback and volume using the dashboard.
-
-The feature includes:
+The main idea is to control media playback and volume using the dashboard. The feature includes:
 
 - Bluetooth HID functionality
 - Media play and pause controls
 - Volume control
 - Wireless interaction with a compatible computer
 
-During setup, make sure bluetooth is enabled on the computer and pair with the NEXUS device when it appears.
-
-Bluetooth behavior can vary depending on the operating system and the way the computer handles media keys.
+During setup, make sure bluetooth is enabled on the computer and pair with the NEXUS device when it appears. Bluetooth behavior can vary depending on the operating system and the way the computer handles media keys.
 
 This feature makes the project more useful as a desk gadget instead of being only a sensor dashboard.
 
 ## Motion Controlled Space Shooter
 
-One of the more interesting features of NEXUS is the motion controlled space shooter game.
+One of the more interesting features of NEXUS is the motion controlled space shooter game. Instead of controlling the game using regular keyboard buttons, the idea is to use the movement of the device as the input. The MPU6050 provides the motion data, which can be used to control movement within the game.
 
-Instead of controlling the game using regular keyboard buttons, the idea is to use the movement of the device as the input.
-
-The MPU6050 provides the motion data, which can be used to control movement within the game.
-
-The game also includes different states such as calibration, shielding and game over.
-
-Calibration is important because the sensor should establish a suitable reference position before the controls are used.
+The game also includes different states such as calibration, shielding and game over. Calibration is important because the sensor should establish a suitable reference position before the controls are used.
 
 The main things to check while testing the game are:
 
@@ -254,15 +226,9 @@ This feature was a fun way to use the motion sensor for something interactive in
 
 ## Idle Screensaver
 
-I also added an animated screensaver to make the dashboard feel more complete.
+I also added an animated screensaver to make the dashboard feel more complete. When the device remains inactive for around 30 seconds, the screensaver can start automatically. The screensaver includes an animated star field and a cyan and blue NEXUS logo.
 
-When the device remains inactive for around 30 seconds, the screensaver can start automatically.
-
-The screensaver includes an animated star field and a cyan and blue NEXUS logo.
-
-The rotary encoder can be used to wake the dashboard and return to the normal interface.
-
-The screensaver is designed to avoid interrupting activities where the device is still being used, such as gameplay, calibration or an active wifi connection process.
+The rotary encoder can be used to wake the dashboard and return to the normal interface. The screensaver is designed to avoid interrupting activities where the device is still being used, such as gameplay, calibration or an active wifi connection process.
 
 This small addition makes the interface feel more like a finished device rather than a collection of separate test screens.
 
@@ -298,11 +264,7 @@ The pin configuration used by the project is:
 #define ENCODER_SW 20
 ```
 
-These values should match the actual wiring of the hardware.
-
-If you change the display, encoder or sensor connections, update the corresponding pin definitions in the code.
-
-The libraries and configuration options required by individual features should be checked in their respective source files.
+These values should match the actual wiring of the hardware. If you change the display, encoder or sensor connections, update the corresponding pin definitions in the code. The libraries and configuration options required by individual features should be checked in their respective source files.
 
 ## Known Issues
 
@@ -321,23 +283,14 @@ The libraries and configuration options required by individual features should b
 
 ## CAD Models
 
-The project can be placed inside a custom enclosure to make it easier to carry and use on a desk.
+<img width="1906" height="1472" alt="image" src="https://github.com/user-attachments/assets/3110e894-ef55-472d-99f3-216b91ff4012" />
+<img width="1702" height="1262" alt="image" src="https://github.com/user-attachments/assets/44f1454f-1951-4e28-966f-ee3e64516583" />
+<img width="2278" height="1558" alt="image" src="https://github.com/user-attachments/assets/ed6c3016-9312-485f-ad38-2036c4499b73" />
 
-The enclosure should provide enough space for the ESP32 C3, TFT display, MPU6050 and rotary encoder.
-
-The display should be positioned so that it is easy to read, and the encoder should remain accessible for navigation.
-
-The exact enclosure dimensions depend on the display module and the way the components are mounted.
-
-A custom 3D printed enclosure would also make it easier to protect the electronics and give the device a more finished appearance.
 
 ## Working Principle
 
-The basic idea behind NEXUS is to use the ESP32 C3 as the main controller and combine multiple features into one compact system.
-
-The display provides the interface, the rotary encoder handles user input, and the MPU6050 supplies motion data.
-
-The wifi and bluetooth functionality provides wireless features, while the web dashboard offers another way to interact with the device.
+The basic idea behind NEXUS is to use the ESP32 C3 as the main controller and combine multiple features into one compact system. The display provides the interface, the rotary encoder handles user input, and the MPU6050 supplies motion data. The wifi and bluetooth functionality provides wireless features, while the web dashboard offers another way to interact with the device.
 
 The overall structure looks something like this:
 
@@ -362,40 +315,18 @@ The overall structure looks something like this:
              Screensaver
 ```
 
-The ESP32 continuously handles the logic required by the active feature and updates the interface when needed.
+The ESP32 continuously handles the logic required by the active feature and updates the interface when needed. When the user rotates or presses the encoder, the input is processed by the menu system. Selecting a feature opens the corresponding screen or starts the relevant functionality.
 
-When the user rotates or presses the encoder, the input is processed by the menu system. Selecting a feature opens the corresponding screen or starts the relevant functionality.
-
-The motion sensor provides data for motion related features, while wifi and bluetooth enable wireless interaction.
-
-All these parts work together to turn a small ESP32 board into a multi feature dashboard.
+The motion sensor provides data for motion related features, while wifi and bluetooth enable wireless interaction. All these parts work together to turn a small ESP32 board into a multi feature dashboard.
 
 ## Final Result
 
-The whole idea behind NEXUS was to build something more useful than a basic sensor display.
+The whole idea behind NEXUS was to build something more useful than a basic sensor display. I started with a small ESP32 C3, a TFT display, an MPU6050 and a rotary encoder. From there, i gradually brought different features together into one device.
 
-I started with a small ESP32 C3, a TFT display, an MPU6050 and a rotary encoder. From there, i gradually brought different features together into one device.
-
-The project now combines menu navigation, motion sensing, wifi connectivity, a web dashboard, bluetooth media controls, a motion controlled game and an animated screensaver.
-
-It was also a good way to learn more about embedded programming, sensor integration, display interfaces, wireless communication and combining multiple features without making the user interface difficult to navigate.
+The project now combines menu navigation, motion sensing, wifi connectivity, a web dashboard, bluetooth media controls, a motion controlled game and an animated screensaver. It was also a good way to learn more about embedded programming, sensor integration, display interfaces, wireless communication and combining multiple features without making the user interface difficult to navigate.
 
 There is still room to improve the design, add more functionality and build a proper enclosure, but the main goal was to create a compact device that brings several useful ideas together in one place.
 
 NEXUS is an ongoing personal project, and the codebase can be used as a starting point for anyone interested in building their own ESP32 based dashboard.
 
----
-
-**Project:** NEXUS ESP32 Smart Dashboard
-
-**Controller:** ESP32 C3 Super Mini
-
-**Display:** ST7735 / ST7735S TFT
-
-**Motion Sensor:** MPU6050
-
-**Input:** Rotary Encoder
-
-**Framework:** Arduino
-
-**Main Areas:** Embedded Systems, Sensor Integration, Wifi, Bluetooth HID and UI Development
+working demo video : 
